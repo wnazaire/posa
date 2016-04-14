@@ -7,13 +7,13 @@
 using namespace std;
 void setup();									//Loads users and appointments
 void save();									//Saves users and appointments
-User * login();								//Allows a customer access, returns pointer to a user object
+User * login();									//Allows a customer access, returns pointer to a user object
 User * signup();								//Allows a user to sign up and then gain access, returns pointer to a user object
 
 int main()
 {
 	setup();
-	int choice;
+	int choice = 1;								//originally 1 so it enters the while loop the first time
 	User *u = 0;
 
 	cout << "Would you like to log in or sign up";
@@ -30,23 +30,9 @@ int main()
 		return 0;
 	}
 
-	int choice = 1;								//originally 1 so it enters the while loop the first time
 
-	while (cin >> choice)
+	do
 	{
-		cout << "Please select an option to continue:";
-		cout << "\t1. Display options";
-		cout << "\t2. Exit";
-		cout << "\t3. Make an appointment";
-		cout << "\t4. View an appointment";
-		cout << "\t5. View my appointments";	//we might need a log in feature to do this if we implement it at all
-		cout << "\t6. Edit an appointment";
-		if (u->getPriviledge() != 1)			//if the user is not a customer
-		{
-			cout << "\t7. View schedule";
-			cout << "\t8. Accept appointment";
-		}
-
 		if (choice == 2)
 		{
 			break;								// terminate loop when the user selects 6
@@ -75,7 +61,21 @@ int main()
 			//	acceptAppointment(u)
 			break;
 		}
-	}
+
+		cout << "Please select an option to continue:\n";
+		cout << "\t1. Display options\n";
+		cout << "\t2. Exit\n";
+		cout << "\t3. Make an appointment\n";
+		cout << "\t4. View an appointment\n";
+		cout << "\t5. View my appointments\n";	//we might need a log in feature to do this if we implement it at all
+		cout << "\t6. Edit an appointment\n";
+		//if (u->getPriviledge() != 1)			//if the user is not a customer
+		//{
+		//	cout << "\t7. View schedule";
+		//	cout << "\t8. Accept appointment";
+		//}
+
+	} while (cin >> choice);
 	
 	save();
 	
