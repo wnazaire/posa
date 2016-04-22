@@ -7,16 +7,18 @@ using namespace std;
 class User
 {
 	public:
-		void create();
+		User(string, string, string, string);
 		string getPassword();
 		string getName();
 		string getUsername();
-		int getPriviledge();
+		string getPrivilege();
 	private:
 		string name;
 		string password;
-		int priviledge;
+		string privilege;
 		string username;
+		int ID;
+		static int count;
 };
 
 #endif

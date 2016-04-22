@@ -4,21 +4,27 @@
 #include	"appointment.h"
 #include	"schedule.h"
 #include	"user.h"
+#include	"db.h"
+
 using namespace std;
-void setup();									//Loads users and appointments
-void save();									//Saves users and appointments
+
+void setup(DB *, Schedule *);					//Loads users and appointments
+void save(DB *, Schedule *);					//Saves users and appointments
 User * login();									//Allows a customer access, returns pointer to a user object
 User * signup();								//Allows a user to sign up and then gain access, returns pointer to a user object
 
 int main()
 {
-	setup();
 	int choice = 1;								//originally 1 so it enters the while loop the first time
 	User *u = 0;
+	DB *db = new DB();
+	Schedule *sch = new Schedule();
+	setup(db, sch);
 
 	cout << "Would you like to log in or sign up";
 	cout << "\t1. Login";
 	cout << "\t2. Sign up";
+	cin >> choice;
 	
 	if (choice == 1)
 		u = login();
@@ -29,7 +35,6 @@ int main()
 	{
 		return 0;
 	}
-
 
 	do
 	{
@@ -53,11 +58,11 @@ int main()
 			//editAppointment(u);
 			break;
 		case 7:
-			//if (u->getPriviledge() != 1)	
+			//if (u->getPriviledge() != "1")	
 			//	viewSchedule();
 			break;
 		case 8:
-			//if (u->getPriviledge() != 1)
+			//if (u->getPriviledge() != "1")
 			//	acceptAppointment(u)
 			break;
 		}
@@ -77,12 +82,12 @@ int main()
 
 	} while (cin >> choice);
 	
-	save();
+	save(db, sch);
 	
 	return 0;
 }
 
-void setup()
+void setup(DB *db, Schedule *sch)
 {
 	//read in users and appointments from appropriate txt files
 	ifstream infile_users;
@@ -90,11 +95,31 @@ void setup()
 	string user;
 	string appt;
 
-	infile_users.open("users.txt");				//Open file
+	string n, pw, p, un;						//User's name, password, privilege, and username
+	int b, e;
+
+	infile_users.open("users.txt");				//Open users file
 	if (infile_users)
-	{											//If the file exists, evaluate expressions
+	{
 		while (getline(infile_users, user)){
-			//business logic for parsing user and creating new users
+			b = e = 0;
+
+			e = user.find(':');					//Colon as delimiter
+			n = user.substr(b, e - 1);
+			b = e + 1;
+			user = user.substr(e + 1);
+
+			e = user.find(':');
+			pw = user.substr(b, e - 1);
+			b = e + 1;
+			user = user.substr(e + 1);
+
+			p = user[e];						//Privilege is one charactor
+			b = e + 2;
+
+			un = user.substr(b);
+
+			db->users.push_back(new User(n, pw, p, un));
 		}
 	}
 	else										//The program will not crash if the file isn't found.
@@ -103,21 +128,68 @@ void setup()
 	}
 	infile_users.close();
 
-	infile_appts.open("users.txt");				//Open file
+	string r, d, t, id;							//Appointment reason, date, time, id
+
+	infile_appts.open("appts.txt");				//Open file
 	if (infile_appts)
-	{											//If the file exists, evaluate expressions
+	{
 		while (getline(infile_appts, appt)){
-			//business logic for parsing appt and creating new appts
+			b = e = 0;
+
+			e = user.find('^#$');				//^#$ as delimiter
+			r = user.substr(b, e - 1);
+			b = e + 1;
+			user = user.substr(e + 1);
+
+			e = user.find('^#$');
+			d = user.substr(b, e - 1);
+			b = e + 1;
+			user = user.substr(e + 1);
+
+			e = user.find('^#$');
+			t = user.substr(b, e - 1);
+			b = e + 1;
+			user = user.substr(e + 1);
+
+			id = user.substr(b);
+
+			sch->add(new Appointment(n, pw, p, un));
 		}
 	}
-	else										//The program will not crash if the file isn't found.
+	else
 	{
 		cerr << "File could not be found.\n";
 	}
 	infile_users.close();
 }
 
-void save()
+void save(DB *db, Schedule *sch)
 {
-	//write users and appointments to appropriate txt files
+	ofstream outfile_users;
+	outfile_users.open("users.txt");
+	vector<User *>::iterator it;
+	for (it = db->users.begin(); it != db->users.end(); it++)
+	{
+		outfile_users << (*it)->getName() << ":" << (*it)->getPassword() << ":" << (*it)->getPrivilege() << ":" << (*it)->getUsername() << "\n";
+	}
+	outfile_users.close();
+
+	ofstream outfile_appts;
+	outfile_appts.open("appts.txt");
+	vector<Appointment *>::iterator iter;
+	for (iter = sch->getSchedule().begin(); iter != sch->getSchedule().end(); iter++)
+	{
+		outfile_appts << (*iter)->getReason() << "^#$" << (*iter)->getDate() << "^#$" << (*iter)->getTime() << "^#$" << (*iter)->getID() << "\n";
+	}
+	outfile_appts.close();
+}
+
+User * login()
+{
+
+}
+
+User * signup()
+{
+
 }

@@ -4,15 +4,20 @@
 #include    <string>
 #include	<iostream>
 #include	<vector>
+#include	"appointment.h"
+#include	"user.h"
 using namespace std;
 
 class Schedule
 {
 	public:
+		Schedule();
+		void add(Appointment *);
 		void viewUsersAppointments(User *);
-		void viewAll(User &);
+		void viewAll(User *);
+		vector<Appointment *> getSchedule();
 	private:
-		vector<Appointment> shedule;
+		vector<Appointment *> shedule;
 };
 
 #endif
