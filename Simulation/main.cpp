@@ -75,13 +75,13 @@ int main()
 		cout << "\t2. Exit\n";
 		cout << "\t3. Make an appointment\n";
 		cout << "\t4. View an appointment\n";
-		cout << "\t5. View my appointments\n";	//we might need a log in feature to do this if we implement it at all
+		cout << "\t5. View my appointments\n";
 		cout << "\t6. Edit an appointment\n";
-		//if (u->getPriviledge() != 1)			//if the user is not a customer
-		//{
-		//	cout << "\t7. View schedule";
-		//	cout << "\t8. Accept appointment";
-		//}
+		if (u->getPrivilege().compare("1") == 0)			//if the user is not a customer
+		{
+			cout << "\t7. View schedule";
+			cout << "\t8. Accept appointment";
+		}
 
 	} while (cin >> choice);
 	
