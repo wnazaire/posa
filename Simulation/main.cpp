@@ -139,17 +139,17 @@ void setup(DB *db, Schedule *sch)
 		while (getline(infile_appts, appt)){
 			b = e = 0;
 
-			e = user.find('^#$');				//^#$ as delimiter
+			e = user.find("^#$");				//^#$ as delimiter
 			r = user.substr(b, e - 1);
 			b = e + 1;
 			user = user.substr(e + 1);
 
-			e = user.find('^#$');
+			e = user.find("^#$");
 			d = user.substr(b, e - 1);
 			b = e + 1;
 			user = user.substr(e + 1);
 
-			e = user.find('^#$');
+			e = user.find("^#$");
 			t = user.substr(b, e - 1);
 			b = e + 1;
 			user = user.substr(e + 1);
