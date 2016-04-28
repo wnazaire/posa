@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include    <iostream>
 #include    <string>
 #include	<fstream>
@@ -12,6 +13,8 @@ void setup(DB *, Schedule *);					//Loads users and appointments
 void save(DB *, Schedule *);					//Saves users and appointments
 User * login();									//Allows a customer access, returns pointer to a user object
 User * signup();								//Allows a user to sign up and then gain access, returns pointer to a user object
+bool checkUsername(DB*, string);
+bool checkPassword(char*);
 
 int main()
 {
@@ -189,7 +192,105 @@ User * login()
 
 }
 
-User * signup()
+User * signup(DB* db)
 {
+	bool valid = false;
+	bool isTaken = false;
+	char *password = "";
+	string name, username, spassword, privledge = "1";
+	cout << "Please type in your full name." << endl;
+	cin.ignore();
+	getline(cin, name);
+	do {
+		cout << "Please type in your desired username." << endl;
+		cin >> username;
+		isTaken = checkUsername(db, username);
+		if (username.find('\\') != std::string::npos)
+		{
+			cout << "Your username contains an invalid character! (\\)" << endl;
+			isTaken = true;
+		}
+	} while (isTaken);
+	do {
+		cout << "Please type in your desired password. Your password must contain at least 5 characters and must consist of at least one lower case letter, one uppercase letter, and one number." << endl;
+		password = new char[30];
+		cin >> password;
+		valid = checkPassword(password);
+	} while (!valid);
+	spassword = string(password);
+	User* newUser = new User(name, username, spassword, privledge);
+	db->users.push_back(newUser);
+	cout << "Welcome! You have been added to our database." << endl;
+	delete[] password;
+	exit(0);
+	return newUser;
+}
 
+bool checkUsername(DB* db, string username)
+{
+	bool isTaken = false;
+	vector<User *>::iterator it;
+	for (it = db->users.begin(); it != db->users.end(); it++)
+	{
+		if (username == (*it)->getUsername())
+		{
+			cout << "That username is already taken. Please select another.";
+			return isTaken = true;
+		}
+	}
+	return isTaken = false;
+}
+
+bool checkPassword(char* password)
+{
+	bool validlen = false, aUpper = false, aLower = false, aDigit = false;	
+	int length;
+	length = strlen(password);
+	if (length < 5)
+	{
+		validlen = false;
+	}
+	else
+	{
+		validlen = true;
+	}
+	for (int i = 0; password[i]; i++)
+	{
+		if (isupper(password[i]))
+		{
+			aUpper = true;
+		}
+		else if (islower(password[i]))
+		{
+			aLower = true;
+		}
+		else if (isdigit(password[i]))
+		{
+			aDigit = true;
+		}
+	}
+	if (aUpper && aLower && aDigit && validlen)
+	{
+		return true;
+	}
+	else
+	{
+		if (!validlen)
+		{
+			cout << "Your password is not a valid length!" << endl;
+		}
+		if (!aUpper)
+		{
+			cout << "Your password does not contain an uppercase letter!" << endl;
+		}
+		if (!aLower)
+		{
+			cout << "Your password does not contain a lower case letter!" << endl;
+		}
+		if (!aDigit)
+		{
+			cout << "Your password does not contain a number!" << endl;
+		}
+		return false;
+	}
 }
