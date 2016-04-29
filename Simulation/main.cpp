@@ -2,6 +2,7 @@
 #include    <iostream>
 #include    <string>
 #include	<fstream>
+#include <string.h>
 #include	"appointment.h"
 #include	"schedule.h"
 #include	"user.h"
@@ -12,7 +13,7 @@ using namespace std;
 void setup(DB *, Schedule *);					//Loads users and appointments
 void save(DB *, Schedule *);					//Saves users and appointments
 User * login();									//Allows a customer access, returns pointer to a user object
-User * signup();								//Allows a user to sign up and then gain access, returns pointer to a user object
+User * signup(DB *db);								//Allows a user to sign up and then gain access, returns pointer to a user object
 bool checkUsername(DB*, string);
 bool checkPassword(char*);
 
@@ -28,11 +29,12 @@ int main()
 	cout << "\t1. Login";
 	cout << "\t2. Sign up";
 	cin >> choice;
-	
+
 	if (choice == 1)
 		u = login();
 	else
-		u = signup();
+        u = signup(db);
+
 
 	if (!u)										//if login/signup fails, terminate
 	{
@@ -41,7 +43,7 @@ int main()
 
 	do
 	{
-		if (choice == 2)
+		if (choice == 6)
 		{
 			break;								// terminate loop when the user selects 6
 		}
@@ -68,6 +70,7 @@ int main()
 			//if (u->getPriviledge() != "1")
 			//	acceptAppointment(u)
 			break;
+			default:break;
 		}
 
 		cout << "Please select an option to continue:\n";
@@ -85,7 +88,7 @@ int main()
 
 	} while (cin >> choice);
 	
-	save(db, sch);
+	//save(db, sch);
 	
 	return 0;
 }
@@ -99,9 +102,10 @@ void setup(DB *db, Schedule *sch)
 	string appt;
 
 	string n, pw, p, un;						//User's name, password, privilege, and username
-	int b, e;
+	unsigned long b;
+    unsigned long e;
 
-	infile_users.open("users.txt");				//Open users file
+    infile_users.open("users.txt");				//Open users file
 	if (infile_users)
 	{
 		while (getline(infile_users, user)){
@@ -120,7 +124,7 @@ void setup(DB *db, Schedule *sch)
 			p = user[e];						//Privilege is one charactor
 			b = e + 2;
 
-			un = user.substr(b);
+			//un = user.substr(b);
 
 			db->users.push_back(new User(n, pw, p, un));
 		}
@@ -196,7 +200,7 @@ User * signup(DB* db)
 {
 	bool valid = false;
 	bool isTaken = false;
-	char *password = "";
+	char *password = (char *) "";
 	string name, username, spassword, privledge = "1";
 	cout << "Please type in your full name." << endl;
 	cin.ignore();
@@ -212,7 +216,8 @@ User * signup(DB* db)
 		}
 	} while (isTaken);
 	do {
-		cout << "Please type in your desired password. Your password must contain at least 5 characters and must consist of at least one lower case letter, one uppercase letter, and one number." << endl;
+		cout << "Please type in your desired password. \nYour password must contain at least 5 characters and must \n"
+                        "consist of at least one lower case letter, one uppercase letter, and one number." << endl;
 		password = new char[30];
 		cin >> password;
 		valid = checkPassword(password);
@@ -222,7 +227,6 @@ User * signup(DB* db)
 	db->users.push_back(newUser);
 	cout << "Welcome! You have been added to our database." << endl;
 	delete[] password;
-	exit(0);
 	return newUser;
 }
 
@@ -235,25 +239,20 @@ bool checkUsername(DB* db, string username)
 		if (username == (*it)->getUsername())
 		{
 			cout << "That username is already taken. Please select another.";
-			return isTaken = true;
+			isTaken = true;
+			return isTaken;
 		}
 	}
-	return isTaken = false;
+	isTaken = false;
+	return isTaken;
 }
 
 bool checkPassword(char* password)
 {
 	bool validlen = false, aUpper = false, aLower = false, aDigit = false;	
-	int length;
+	size_t length;
 	length = strlen(password);
-	if (length < 5)
-	{
-		validlen = false;
-	}
-	else
-	{
-		validlen = true;
-	}
+    validlen = length >= 5;
 	for (int i = 0; password[i]; i++)
 	{
 		if (isupper(password[i]))
