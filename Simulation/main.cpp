@@ -1,11 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include    <iostream>
-#include    <string>
 #include	<fstream>
 #include <string.h>
+#include <sstream>
 #include	"appointment.h"
 #include	"schedule.h"
-#include	"user.h"
 #include	"db.h"
 
 using namespace std;
@@ -193,6 +192,54 @@ void save(DB *db, Schedule *sch)
 
 User * login()
 {
+    string name;
+    string username;
+    string password;
+    string privilege;
+
+    cout << "Please enter your username" << endl;
+    cin >> username;
+    cout << "Please enter your password" << endl;
+    cin >> password;
+
+    if (username.empty() || password.empty()) {
+        cout << "Invalid username/password" << endl;
+        exit(0);
+    }
+
+    ifstream file;
+    // Need to change the file path to whatever location you have the users.txt saved.
+    file.open("/home/circleupx/ClionProjects/pose/Simulation/users.txt");
+    string line;
+
+    while (getline(file, line)) {
+        stringstream linestream(line);
+        string foundusername;
+        string foundpassword;
+        string value;
+
+        while (getline(linestream, value, ':')) {
+            if (value == password) {
+                foundpassword = value;
+            }
+            if (value == username) {
+                foundusername = value;
+            }
+        }
+        if (foundusername == "" || foundpassword == "") {
+            cout << "Invalid user information, closing program" << endl;
+            return 0;
+        }
+        else
+            cout << "\nWelcome " << foundusername << '\n' << endl;
+        cout << "Please select one of the following option to continue\n" << endl;
+
+    }
+    file.close();
+
+    User *something;
+    return something;
+
 
 }
 
