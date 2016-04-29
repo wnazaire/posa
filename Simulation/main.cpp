@@ -15,6 +15,7 @@ User * login();									//Allows a customer access, returns pointer to a user ob
 User * signup(DB *db);								//Allows a user to sign up and then gain access, returns pointer to a user object
 bool checkUsername(DB*, string);
 bool checkPassword(char*);
+Appointment a;
 
 int main()
 {
@@ -50,7 +51,7 @@ int main()
 		switch (choice)
 		{
 		case 3:
-			//createAppointment(u);
+			a.create(u);
 			break;
 		case 4:
 			//viewAppointment(u);
