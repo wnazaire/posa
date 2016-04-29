@@ -1,11 +1,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include    <iostream>
-#include    <string>
 #include	<fstream>
 #include <string.h>
 #include	"appointment.h"
 #include	"schedule.h"
-#include	"user.h"
 #include	"db.h"
 
 using namespace std;
@@ -193,6 +191,31 @@ void save(DB *db, Schedule *sch)
 
 User * login()
 {
+    string name;
+    string username;
+    string password;
+    string privilege;
+
+    cout << "Please enter your username" << endl;
+    cin >> username;
+    cout << "Please enter your password" << endl;
+    cin >> password;
+
+    if (username.empty() || password.empty()) {
+        cout << "Invalid username/password" << endl;
+        exit(0);
+    }
+
+    ifstream infile("users.txt");
+    string line;
+
+    while (getline(infile, line, ':')) {
+        cout << line << endl;
+    }
+
+    User *something;
+    return something;
+
 
 }
 
