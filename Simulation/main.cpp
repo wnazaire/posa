@@ -207,23 +207,35 @@ User * login()
         exit(0);
     }
 
-    ifstream file("users.txt");
+    ifstream file;
+    // Need to change the file path to whatever location you have the users.txt saved.
+    file.open("/home/circleupx/ClionProjects/pose/Simulation/users.txt");
     string line;
 
     while (getline(file, line)) {
         stringstream linestream(line);
+        string foundusername;
+        string foundpassword;
         string value;
 
         while (getline(linestream, value, ':')) {
-            cout << value << endl;
+            if (value == password) {
+                foundpassword = value;
+            }
+            if (value == username) {
+                foundusername = value;
+            }
         }
+        if (foundusername == "" || foundpassword == "") {
+            cout << "Invalid user information, closing program" << endl;
+            return 0;
+        }
+        else
+            cout << "\nWelcome " << foundusername << '\n' << endl;
+        cout << "Please select one of the following option to continue\n" << endl;
+
     }
-//    string token, text("Here:is:some:text");
-//    istringstream iss(text);
-//
-//    while(getline(file,token,':')){
-//        cout << token << endl;
-//    }
+    file.close();
 
     User *something;
     return something;
