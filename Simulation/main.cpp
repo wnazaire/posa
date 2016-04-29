@@ -2,6 +2,7 @@
 #include    <iostream>
 #include	<fstream>
 #include <string.h>
+#include <sstream>
 #include	"appointment.h"
 #include	"schedule.h"
 #include	"db.h"
@@ -206,12 +207,23 @@ User * login()
         exit(0);
     }
 
-    ifstream infile("users.txt");
+    ifstream file("users.txt");
     string line;
 
-    while (getline(infile, line, ':')) {
-        cout << line << endl;
+    while (getline(file, line)) {
+        stringstream linestream(line);
+        string value;
+
+        while (getline(linestream, value, ':')) {
+            cout << value << endl;
+        }
     }
+//    string token, text("Here:is:some:text");
+//    istringstream iss(text);
+//
+//    while(getline(file,token,':')){
+//        cout << token << endl;
+//    }
 
     User *something;
     return something;
