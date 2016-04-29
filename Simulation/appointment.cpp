@@ -8,20 +8,22 @@ using namespace std;
 
 int Appointment::count = 0;
 
-Appointment::Appointment(string r, string d, string t, string i)
+Appointment::Appointment(string r, string d, string t, string u, string i)
 {
 	reason = r;
 	date = d;
 	time = t;
 	id = i;
+	customer = u;
 	count++;
 }
 
-Appointment::Appointment(string r, string d, string t)
+Appointment::Appointment(string r, string d, string t, string u)
 {
 	reason = r;
 	date = d;
 	time = t;
+	customer = u;
 	id = to_string(count);
 	count++;
 }

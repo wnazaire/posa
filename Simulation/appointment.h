@@ -8,13 +8,13 @@ using namespace std;
 class Appointment
 {
 	public:
+		Appointment(string, string, string, string, string);
 		Appointment(string, string, string, string);
-		Appointment(string, string, string);
-		void create(User *);
 		void edit();
 		void view();
 		void accept();
 		string getReason();
+		string getCustomer();
 		string getTime();
 		string getDate();
 		string getID();
@@ -23,6 +23,7 @@ class Appointment
 		string date;
 		string time;
 		string id;
+		string customer;
 		static int count;
 };
 
