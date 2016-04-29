@@ -15,7 +15,6 @@ User * login();									//Allows a customer access, returns pointer to a user ob
 User * signup(DB *db);								//Allows a user to sign up and then gain access, returns pointer to a user object
 bool checkUsername(DB*, string);
 bool checkPassword(char*);
-Appointment a;
 
 int main()
 {
@@ -51,7 +50,33 @@ int main()
 		switch (choice)
 		{
 		case 3:
-			a.create(u);
+			{
+				string d, t, r;
+				bool taken = false;
+
+				cout << "Please select the date: YY/MM/DD\n";
+				cin >> d;
+				cout << "Please select the time: HH:MM A(P)M\n";
+				cin >> t;
+				cout << "Please state the reason for your appointment:\n";
+				cin >> r;
+				for (vector<Appointment *>::iterator it; it != sch->getSchedule().end(); it++)
+				{
+					if (d.compare((*it)->getDate()) == 0 && t.compare((*it)->getTime()) == 0)
+					{
+						cout << "Time and date taken!";
+						taken = true;
+					}
+				}
+				if (!taken)
+				{
+					sch->getSchedule().push_back(new Appointment(r, d, t));
+				}
+				else
+				{
+					cout << "Unable to create appointment!";
+				}
+			};
 			break;
 		case 4:
 			//viewAppointment(u);

@@ -8,6 +8,7 @@ class User
 {
 	public:
 		User(string, string, string, string);
+		User(string, string, string);
 		string getPassword();
 		string getName();
 		string getUsername();
@@ -17,7 +18,7 @@ class User
 		string password;
 		string privilege;
 		string username;
-		int ID;
+		string ID;
 		static int count;
 };
 

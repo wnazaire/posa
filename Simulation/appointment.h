@@ -9,6 +9,7 @@ class Appointment
 {
 	public:
 		Appointment(string, string, string, string);
+		Appointment(string, string, string);
 		void create(User *);
 		void edit();
 		void view();
@@ -22,6 +23,7 @@ class Appointment
 		string date;
 		string time;
 		string id;
+		static int count;
 };
 
 #endif
