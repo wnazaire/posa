@@ -82,6 +82,20 @@ int main()
 			//viewAppointment(u);
 			break;
 		case 5:
+			void viewUsersAppointments(User *){
+				cout <"Enter username to view appointments">
+					cin >> choice
+					string user = User.getUsername();
+				if (choice != user){}
+				else (
+					string reason = Appointment.getReason();
+				string time = Appointment.getTime();
+				string date = Appointment.getDate();
+				string  ID = Appointment.getID();
+				cout << "Appointment details:" reason, time, date, ID >> ;
+				)
+
+			}
 			//viewAppointments(u);				//the difference here is an 's', be careful
 			break;
 		case 6:
