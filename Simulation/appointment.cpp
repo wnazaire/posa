@@ -28,6 +28,11 @@ Appointment::Appointment(string r, string d, string t, string u)
 	count++;
 }
 
+void Appointment::viewAppointments(User *)
+{
+
+}
+
 void Appointment::edit()
 {
 }

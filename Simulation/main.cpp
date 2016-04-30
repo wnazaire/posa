@@ -60,7 +60,7 @@ int main()
 				cin >> t;
 				cout << "Please state the reason for your appointment:\n";
 				cin >> r;
-				for (vector<Appointment *>::iterator it; it != sch->getSchedule().end(); it++)
+				for (vector<Appointment *>::iterator it = sch->getSchedule().begin(); it != sch->getSchedule().end(); it++)
 				{
 					if (d.compare((*it)->getDate()) == 0 && t.compare((*it)->getTime()) == 0)
 					{

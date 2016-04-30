@@ -13,6 +13,7 @@ class Appointment
 		void edit();
 		void view();
 		void accept();
+		void viewAppointments(User *);
 		string getReason();
 		string getCustomer();
 		string getTime();
