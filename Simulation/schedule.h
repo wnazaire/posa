@@ -17,7 +17,7 @@ class Schedule
 		void viewAll(User *);
 		vector<Appointment *> getSchedule();
 	private:
-		vector<Appointment *> shedule;
+		vector<Appointment *> schedule;
 };
 
 #endif
