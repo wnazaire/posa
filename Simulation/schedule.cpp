@@ -4,14 +4,6 @@ Schedule::Schedule()
 {
 }
 
-void Schedule::add(Appointment *)
-{
-}
-
-void Schedule::viewUsersAppointments(User *)
-{
-}
-
 void Schedule::viewAll(User * u)
 {
 	if (u->getPrivilege().compare("1") == 0)
@@ -31,5 +23,5 @@ void Schedule::viewAll(User * u)
 
 vector<Appointment*> Schedule::getSchedule()
 {
-	return vector<Appointment*>();
+	return schedule;
 }

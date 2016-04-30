@@ -8,13 +8,15 @@ using namespace std;
 class Appointment
 {
 	public:
-		Appointment(string, string, string, string, string);
+		Appointment(string, string, string, string, string, string);
 		Appointment(string, string, string, string);
 		void edit();
 		void view();
-		void accept();
+		void accept(User *, Schedule *);
 		void viewAppointments(User *);
+		void setTech(string);
 		string getReason();
+		string getTech();
 		string getCustomer();
 		string getTime();
 		string getDate();
@@ -24,6 +26,7 @@ class Appointment
 		string date;
 		string time;
 		string id;
+		string tech;
 		string customer;
 		static int count;
 };

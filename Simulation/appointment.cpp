@@ -8,13 +8,14 @@ using namespace std;
 
 int Appointment::count = 0;
 
-Appointment::Appointment(string r, string d, string t, string u, string i)
+Appointment::Appointment(string r, string d, string t, string u, string te, string i)
 {
 	reason = r;
 	date = d;
 	time = t;
 	id = i;
 	customer = u;
+	tech = te;
 	count++;
 }
 
@@ -41,26 +42,56 @@ void Appointment::view()
 {
 }
 
-void Appointment::accept()
+void Appointment::setTech(string t)
 {
+	tech = t;
+}
+
+void Appointment::accept(User * u, Schedule * s)
+{
+	string ID;
+
+	cout << "Please enter the ID of the appointment you want to accept";
+	cin >> ID;
+
+	vector<Appointment *>::iterator iter;
+	for (iter = s->getSchedule().begin(); iter != s->getSchedule().end(); iter++)
+	{
+		if ((*iter)->getID().compare(ID) == 0)
+		{
+			(*iter)->setTech(u->getUsername());
+			break;
+		}
+	}
+
+	if (iter == s->getSchedule().end())
+	{
+		cout << "Appointment not found!";
+	}
+
 }
 
 string Appointment::getReason()
 {
-	return string();
+	return reason;
 }
 
 string Appointment::getTime()
 {
-	return string();
+	return time;
 }
 
 string Appointment::getDate()
 {
-	return string();
+	return date;
 }
 
 string Appointment::getID()
 {
-	return string();
+	return id;
+}
+
+string Appointment::getTech()
+{
+	return tech;
 }

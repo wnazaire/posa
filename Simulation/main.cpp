@@ -174,7 +174,7 @@ void setup(DB *db, Schedule *sch)
 	}
 	infile_users.close();
 
-	string r, d, t, id, u;						//Appointment reason, date, time, id, username
+	string r, d, t, id, u, te;						//Appointment reason, date, time, id, username, tech
 
 	infile_appts.open("appts.txt");				//Open file
 	if (infile_appts)
@@ -202,9 +202,14 @@ void setup(DB *db, Schedule *sch)
 			b = e + 1;
 			user = user.substr(e + 1);
 
+			e = user.find("^#$");
+			te = user.substr(b, e - 1);
+			b = e + 1;
+			user = user.substr(e + 1);
+
 			id = user.substr(b);
 
-			sch->add(new Appointment(r, d, t, u, id));
+			sch->add(new Appointment(r, d, t, u, te, id));
 		}
 	}
 	else
@@ -230,7 +235,7 @@ void save(DB *db, Schedule *sch)
 	vector<Appointment *>::iterator iter;
 	for (iter = sch->getSchedule().begin(); iter != sch->getSchedule().end(); iter++)
 	{
-		outfile_appts << (*iter)->getReason() << "^#$" << (*iter)->getDate() << "^#$" << (*iter)->getTime() << "^#$" << (*iter)->getCustomer() << (*iter)->getID() << "\n";
+		outfile_appts << (*iter)->getReason() << "^#$" << (*iter)->getDate() << "^#$" << (*iter)->getTime() << "^#$" << (*iter)->getCustomer() << (*iter)->getTech() << (*iter)->getID() << "\n";
 	}
 	outfile_appts.close();
 }
