@@ -156,20 +156,28 @@ _END;
             {
                 $cust_id = $row['cust_id'];
                 $customer = queryMySQL("SELECT name FROM USERS_K WHERE id = '$cust_id'");
+                $id = $row['id'];
+                $time = strtotime($row['appt_time']);
+                $made = strtotime($row['made']);
                 
-                echo "<p><b>ID: </b>" . $row['id'] . "</p>";
+                echo "<p><b>ID: </b>" . $id . "</p>";
                 echo "<p><b>Customer: </b>" . $customer->fetch_assoc()['name'] . "</p>";
                 echo "<p><b>Device: </b>" . $row['device'] . "</p>";
                 echo "<p><b>Reason: </b>" . $row['reason'] . "</p>";
-                echo "<p><b>Date: </b>" . date_format(date_create($row['appt_date']), "F d, Y") . "</p>";
-                $time = strtotime($row['appt_time']);
+                echo "<p><b>Date: </b>" . date_format(date_create($row['appt_date']), "F d, Y") . "</p>";            
                 echo "<p><b>Time: </b>" . date_format(date_create("@$time"), "g:i a") . "</p>";
-                $made = strtotime($row['made']);
+                
+                if ($row['approval'] == "p")
+                    echo "<p><b>Status: </b>Pending approval </p>";
+                else if ($row['approval'] == "a")
+                    echo "<p><b>Status: </b>Approved </p>";
+                else if ($row['approval'] == "n")
+                    echo "<p><b>Status: </b>Not approved </p>";
+                
                 echo "<p><b>Date Created: </b>" . date_format(date_create("@$made"), "F d, Y g:i:s") . "</p>";
                 echo <<<_END
-                <a id="accept2" class="btn btn-primary btn-sm" role="button">Accept</a>
-                <a id="deny" class="btn btn-primary btn-sm" role="button">Deny</a>
-                <hr>
+                <form action='accept.php' method='POST'"> <input type='hidden' name='tempId' value="$id"/> <input type="submit" id="accept2" value="Accept" class="btn btn-success btn-sm"/> </form>
+                <form action='deny.php' method='POST'"> <input type='hidden' name='tempId' value="$id"/> <input type="submit" id="deny2" value="Deny" class="btn btn-danger btn-sm"/> </form> <hr>
 _END;
             }
         echo "</div>";
