@@ -143,7 +143,41 @@ _END;
                 </small>
            </section>
            <div style="display: none" id="add_form">
-                <p>Add an appointment</p>
+                <h3>Add an appointment</h3>
+                <hr>
+                <form>
+                  <fieldset class="form-group">
+                    <label for="exampleInputPassword1">Device Name</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Example: Toshiba Satellite L645 Laptop">
+                  </fieldset>
+
+                  <fieldset class="form-group">
+                    <label for="exampleDateTime">Date and time</label>
+                            <div class="form-group">
+                                <div class='input-group date' id='datetimepicker11'>
+                                    <input type='text' class="form-control" />
+                                    <span class="input-group-addon">
+                                    </span>
+                                </div>
+                            </div>
+                        <script type="text/javascript">
+                            $(function () {
+                                $('#datetimepicker11').datetimepicker({
+                                    daysOfWeekDisabled: [0, 6]
+                                });
+                            });
+                        </script>
+                  </fieldset>
+
+                 <fieldset class="form-group">
+                    <label for="exampleTextarea">What is the reason for your appointment?</label>
+                    <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                  </fieldset>
+
+                    <div class= "button-holder">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
            </div>
            <div style="display: none" id="view_appt">
                 <p>View all appointments</p>
@@ -203,8 +237,9 @@ _END;
 
         <!-- jQuery -->
         <script src="js/jquery.js"></script>
-        
+        <script type="text/javascript" src="js/moment.js"></script>
         <script src="functions.js"></script>
+        <script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
 
         <!-- Bootstrap Core JavaScript -->
         <script src="js/bootstrap.min.js"></script>
