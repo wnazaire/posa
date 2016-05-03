@@ -29,11 +29,6 @@ require_once "php/functions.php";
                     <h2>Schedule an Appointment with us Today!</h2>
                 </div>
 <form>
-     
-  <fieldset class="form-group"> 
-    <label for="exampleInputEmail1">Full Name</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="First Name followed by Last Name">
-  </fieldset>
     
   <fieldset class="form-group">
     <label for="exampleInputPassword1">Device Name</label>
