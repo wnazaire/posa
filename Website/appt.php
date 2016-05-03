@@ -26,6 +26,16 @@
                                                             //Redirect to prevent form resubmission
             header("Location: http://lamp.cse.fau.edu/~wnazaire2013/fp/rd.php");
     }
+    
+    if(isset($_POST['device']) && isset($_POST['date']) && isset($_POST['time']) && isset($_POST['reason']))
+    {
+        $device = sanitizeString($db, $_POST['device']);
+        $date = sanitizeString($db, $_POST['date']);
+        $time = sanitizeString($db, $_POST['time']);
+        $reason = sanitizeString($db, $_POST['reason']);
+
+        SavePostToDB($db, $device, $date, $time, $reason); 
+    }
 
     if (isset($_SESSION['user']))                           //Check to see if the user has logged in
     {
@@ -147,35 +157,27 @@ _END;
                 <hr>
                 <form>
                   <fieldset class="form-group">
-                    <label for="exampleInputPassword1">Device Name</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Example: Toshiba Satellite L645 Laptop">
+                    <label for="device">Device Name</label>
+                    <input type="text" class="form-control" id="device" placeholder="Example: Toshiba Satellite L645 Laptop">
                   </fieldset>
 
                   <fieldset class="form-group">
-                    <label for="exampleDateTime">Date and time</label>
-                            <div class="form-group">
-                                <div class='input-group date' id='datetimepicker11'>
-                                    <input type='text' class="form-control" />
-                                    <span class="input-group-addon">
-                                    </span>
-                                </div>
-                            </div>
-                        <script type="text/javascript">
-                            $(function () {
-                                $('#datetimepicker11').datetimepicker({
-                                    daysOfWeekDisabled: [0, 6]
-                                });
-                            });
-                        </script>
+                    <label for="date">Date</label>
+                    <input type="text" class="form-control" id="date" placeholder="Example: May 4, 2016">
+                  </fieldset>
+                  
+                  <fieldset class="form-group">
+                    <label for="time">Time</label>
+                    <input type="text" class="form-control" id="time" placeholder="Example: 4:00 pm">
                   </fieldset>
 
                  <fieldset class="form-group">
-                    <label for="exampleTextarea">What is the reason for your appointment?</label>
-                    <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                    <label for="reason">What is the reason for your appointment?</label>
+                    <textarea class="form-control" id="reason" rows="3"></textarea>
                   </fieldset>
-
+                    <br>
                     <div class= "button-holder">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                     </div>
                 </form>
            </div>
@@ -226,7 +228,7 @@ _END;
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Willene Nazaire 2015 -- <a href="http://startbootstrap.com/template-overviews/1-col-portfolio/">Template</a> from Start Bootstrap</p>
+                    <p><a href="http://startbootstrap.com/template-overviews/1-col-portfolio/">Template</a> from Start Bootstrap</p>
                 </div>
             </div>
             <!-- /.row -->
@@ -237,9 +239,7 @@ _END;
 
         <!-- jQuery -->
         <script src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/moment.js"></script>
         <script src="functions.js"></script>
-        <script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
 
         <!-- Bootstrap Core JavaScript -->
         <script src="js/bootstrap.min.js"></script>
