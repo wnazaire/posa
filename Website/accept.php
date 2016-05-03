@@ -5,10 +5,15 @@
     $connection = new mysqli($dbhost, $dbuser, $dbpass, $dbname); 
     if ($connection->connect_error) die($connection->connect_error);
 
-    if(isset($_POST["accept_id"])){
-        $id = $_POST["accept_id"];
+    if(isset($_POST["tempId"])){
+        $id = $_POST["tempId"];
         $sql = "UPDATE Appointments SET approval='a' WHERE id='$id'";
-        $result = mysql_query($spl);
+        if ($connection->query($sql) === TRUE){
+            echo "Appointment accepted";
+        }else {
+            echo "Error" . $connection->error;
+        }
+        header("Location: http://lamp.cse.fau.edu/~wnazaire2013/kopje/appt.php");
     }
     $db->close();
 ?>

@@ -138,13 +138,7 @@ _END;
             
            <p>Please note that all appointments will take place in our store location<p>
            <p class="text-center"><b>Store location:</b> 123 Rainbow Drive, Boca Raton, FL 33431</p>
-           <section id="contact" class="map">
-        <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3575.822084585666!2d-80.21654704931937!3d26.332259983299544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d91bbcb42de16f%3A0xee0d415ca5e6cd73!2sRainbow+Rd%2C+Boca+Raton%2C+FL+33428!5e0!3m2!1sen!2sus!4v1462281402046"></iframe>
-        <br />
-        <small>
-            <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3575.822084585666!2d-80.21654704931937!3d26.332259983299544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d91bbcb42de16f%3A0xee0d415ca5e6cd73!2sRainbow+Rd%2C+Boca+Raton%2C+FL+33428!5e0!3m2!1sen!2sus!4v1462281402046"></a>
-        </small>
-    </section>
+           <img src="./img/location.png" class="img-responsive center-block" alt="Store location on map">
            <div style="display: none" id="add_form">
                 <p>Add an appointment</p>
            </div>
@@ -182,8 +176,8 @@ _END;
                 
                 echo "<p><b>Date Created: </b>" . date_format(date_create("@$made"), "F d, Y g:i:s") . "</p>";
                 echo <<<_END
-                <input type="button" id="accept2" value="Accept" class="btn btn-primary btn-sm" onclick="acceptappointment($id)"/>
-                <input type="button" id="deny2" value="Deny" class="btn btn-primary btn-sm" onclick="denyappointment($id)"/> <hr>
+                <form action='accept.php' method='POST'"> <input type='hidden' name='tempId' value="$id"/> <input type="submit" id="accept2" value="Accept" class="btn btn-success btn-sm"/> </form>
+                <form action='deny.php' method='POST'"> <input type='hidden' name='tempId' value="$id"/> <input type="submit" id="deny2" value="Deny" class="btn btn-danger btn-sm"/> </form> <hr>
 _END;
             }
         echo "</div>";
@@ -222,7 +216,7 @@ _END;
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Appointments</title>
+        <title>The Wall</title>
         <link href="./css/bootstrap.min.css" rel="stylesheet">
         <link href="./css/signin.css" rel="stylesheet">
         <div class="container">
