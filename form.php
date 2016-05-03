@@ -61,3 +61,16 @@ require_once "php/functions.php";
 </form>
  </body>
 </html>
+
+<?php
+//check to see if the fields for device, date and time are populated
+if(isset($_POST['device']) && isset($_POST['date']) && isset($_POST['time']) && isset($_POST['reason']))
+{
+    $device = sanitizeString($db, $_POST['device']);
+    $date = sanitizeString($db, $_POST['date']);
+    $time = sanitizeString($db, $_POST['time']);
+    $reason = sanitizeString($db, $_POST['reason']);
+    
+    SavePostToDB($db, $device, $date, $time, $reason); 
+}
+?>
