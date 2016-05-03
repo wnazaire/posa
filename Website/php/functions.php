@@ -12,13 +12,13 @@
     {
         echo "Saving to DB";
         /* Prepared statement, stage 1: prepare query */
-    	if (!($stmt = $_db->prepare("INSERT INTO Apppointments(null, null, defaut, id, device, reason, appt_date, appt_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")))
+    	if (!($stmt = $_db->prepare("INSERT INTO Appointments VALUES (?, ?, ?, ?, ?, ?, ?, ?)")))
     	{
 	    	echo "Prepare failed: (" . $_db->errno . ") " . $_db->error;
     	}
 
 	    /* Prepared statement, stage 2: bind parameters*/
-    	if (!$stmt->bind_param('sssissss', 'null', 'null', 'default', $_id, $_device, $_reason, $_date, $_time))
+    	if (!$stmt->bind_param('sssissss', "null", "null", "default", $_id, $_device, $_reason, $_date, $_time))
     	{
     		echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
 	    }

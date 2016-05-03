@@ -179,18 +179,12 @@ _END;
                     </div>
                 </form>
            </div>
-           <div style="display: none" id="view_all_appt">
+           <div style="display: none" id="viewall_appt">
                 <h3>All appointments</h3>
                 <hr>
 _END;
            $result = queryMySQL("SELECT * FROM Appointments");
-           if(!$row = mysqli_fetch_array($result))
-            {
-                echo "You haven't made any appointments yet";
-            }
-            else
-            {
-               while($row = mysqli_fetch_array($result))
+            while($row = mysqli_fetch_array($result))
                {
                    $cust_id = $row['cust_id'];
                     $customer = queryMySQL("SELECT name FROM USERS_K WHERE id = '$cust_id'");
@@ -212,35 +206,38 @@ _END;
                     else if ($row['approval'] == "n")
                         echo "<p><b>Status: </b>Not approved </p>";
 
-                    echo "<p><b>Date Created: </b>" . date_format(date_create("@$made"), "F d, Y g:i:s") . "</p>";
+                    echo "<p><b>Date Created: </b>" . date_format(date_create("@$made"), "F d, Y g:i:s") . "</p><hr>";
                }
-            }
            
            echo <<<_END
            </div>
-           <div style="display: none" id="view_my_appt">
+           <div style="display: none" id="view_appt">
                 <h3>My appointments</h3>
+                <hr>
 _END;
         $customerid = queryMySQL("SELECT id FROM USERS_K WHERE username='$user'")->fetch_assoc()['id'];
-        $result = queryMySQL("SELECT * FROM Appointments WHERE cust_id = '$customerid'");
-        if(!$row = mysqli_fetch_array($result))
+        $result2 = queryMySQL("SELECT * FROM Appointments WHERE cust_id = '$customerid'");
+        if($result2->num_rows === 0)
         {
             echo 'You have no scheduled appointments!';
         }
-        while($row = mysqli_fetch_array($result))
+        else
         {
-                echo "<p><b>Device: </b>" . $row['device'] . "</p>";
-                echo "<p><b>Reason: </b>" . $row['reason'] . "</p>";
-                echo "<p><b>Date: </b>" . date_format(date_create($row['appt_date']), "F d, Y") . "</p>";            
-                echo "<p><b>Time: </b>" . date_format(date_create("@$time"), "g:i a") . "</p>";
-                
-                if ($row['approval'] == "p")
-                    echo "<p><b>Status: </b>Pending approval </p>";
-                else if ($row['approval'] == "a")
-                    echo "<p><b>Status: </b>Approved </p>";
-                else if ($row['approval'] == "n")
-                    echo "<p><b>Status: </b>Not approved </p>";
-                echo "<p><b>Date Created: </b>" . date_format(date_create("@$made"), "F d, Y g:i:s") . "</p>";
+            while($row = mysqli_fetch_array($result2))
+            {
+                    echo "<p><b>Device: </b>" . $row['device'] . "</p>";
+                    echo "<p><b>Reason: </b>" . $row['reason'] . "</p>";
+                    echo "<p><b>Date: </b>" . date_format(date_create($row['appt_date']), "F d, Y") . "</p>";            
+                    echo "<p><b>Time: </b>" . date_format(date_create("@$time"), "g:i a") . "</p>";
+
+                    if ($row['approval'] == "p")
+                        echo "<p><b>Status: </b>Pending approval </p>";
+                    else if ($row['approval'] == "a")
+                        echo "<p><b>Status: </b>Approved </p>";
+                    else if ($row['approval'] == "n")
+                        echo "<p><b>Status: </b>Not approved </p>";
+                    echo "<p><b>Date Created: </b>" . date_format(date_create("@$made"), "F d, Y g:i:s") . "</p><hr>";
+            }
         }
         echo <<<_END
            </div>

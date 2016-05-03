@@ -248,8 +248,7 @@ $("#viewmy").click(function(){
     $("#accept_appt").hide();
     $("#add_form").hide();
     $("#viewall_appt").hide();
-    $("#view_all_appt").hide();
-    $("#view_my_appt").show();
+    $("#view_appt").show();
 });
 
 $("#cancel").click(function(){
@@ -273,6 +272,5 @@ $("#viewall").click(function(){
     $("#cancel_appt").hide();
     $("#add_form").hide();
     $("#accept_appt").hide();
-    $("#view_my_appt").hide();
-    $("#view_all_appt").show();
+    $("#viewall_appt").show();
 });
