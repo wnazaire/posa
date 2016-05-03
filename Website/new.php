@@ -14,7 +14,7 @@ if(isset($_POST['device']) && isset($_POST['date']) && isset($_POST['time']) && 
         $user = $_SESSION['user'];
         $id = queryMySQL("SELECT id FROM USERS_K WHERE username='$user'")->fetch_assoc()['id'];
         
-        $query = "INSERT INTO Apppointments VALUES(null, null, default, $id, $device, $reason, $date, $time)";
+        $query = "INSERT INTO Appointments VALUES(null, null, default, $id, $device, $reason, '$date', '$time')";
         queryMySQL($query);
         if(!$result = $_db->query($query))
         {
