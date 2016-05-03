@@ -150,7 +150,43 @@ _END;
            </div>
            <div style="display: none" id="accept_appt">
                 <p>Accept appointments</p>
-           </div>
+_END;
+            $appr = "p";
+            $result = queryMySQL("SELECT * FROM Appointments WHERE approval = '$appr'");
+            echo "<table border='1'>
+            <tr>
+            <th>Appointment ID</th>
+            <th>Date Created</th>
+            <th>Customer ID</th>
+            <th>Device</th>
+            <th>Reason</th>
+            <th>Appointment Date</th>
+            <th>Appointment Time</th>
+            <th>Approve</th>
+            <th>Deny</th>
+            </tr>";
+        
+            while($row = mysqli_fetch_array($result))
+            {
+                echo "<tr>";
+                echo "<td>" . $row['id'] . "</td>";
+                echo "<td>" . $row['made'] . "</td>";
+                echo "<td>" . $row['cust_id'] . "</td>";
+                echo "<td>" . $row['device'] . "</td>";
+                echo "<td>" . $row['reason'] . "</td>";
+                echo "<td>" . $row['appt_date'] . "</td>";
+                echo "<td>" . $row['appt_time'] . "</td>";
+                echo <<<_END
+                <td> <a id="accept2" class="btn btn-primary btn-sm" role="button">Accept</a> </td>
+                <td> <a id="deny" class="btn btn-primary btn-sm" role="button">Deny</a> </td>
+                </tr>
+_END;
+            }
+        echo "</table>";
+        
+        
+        echo <<<_END
+        </div>
         <!-- Footer -->
         <footer>
             <div class="row">
