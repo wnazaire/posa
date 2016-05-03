@@ -16,9 +16,12 @@
     	{
 	    	echo "Prepare failed: (" . $_db->errno . ") " . $_db->error;
     	}
-
+        $n = "null";
+        $f = '';
+        $d = "p";
+        echo $d;
 	    /* Prepared statement, stage 2: bind parameters*/
-    	if (!$stmt->bind_param('sssissss', "null", "null", "default", $_id, $_device, $_reason, $_date, $_time))
+    	if (!$stmt->bind_param('sssissss', $n, $f, $d, $_id, $_device, $_reason, $_date, $_time))
     	{
     		echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
 	    }
