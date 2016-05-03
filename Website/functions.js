@@ -238,14 +238,16 @@ $("#adda").click(function(){
     $("#view_appt").hide();
     $("#cancel_appt").hide();
     $("#accept_appt").hide();
+    $("#viewall_appt").hide();
     $("#add_form").show();
 });
 
-$("#view").click(function(){
+$("#viewmy").click(function(){
     
     $("#cancel_appt").hide();
     $("#accept_appt").hide();
     $("#add_form").hide();
+    $("#viewall_appt").hide();
     $("#view_appt").show();
 });
 
@@ -253,6 +255,7 @@ $("#cancel").click(function(){
     $("#view_appt").hide();
     $("#accept_appt").hide();
     $("#add_form").hide();
+    $("#viewall_appt").hide();
     $("#cancel_appt").show();
 });
 
@@ -260,5 +263,14 @@ $("#accept").click(function(){
     $("#view_appt").hide();
     $("#cancel_appt").hide();
     $("#add_form").hide();
+    $("#viewall_appt").hide();
     $("#accept_appt").show();
+});
+
+$("#viewall").click(function(){
+    $("#view_appt").hide();
+    $("#cancel_appt").hide();
+    $("#add_form").hide();
+    $("#accept_appt").hide();
+    $("#viewall_appt").show();
 });

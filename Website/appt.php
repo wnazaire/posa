@@ -27,15 +27,6 @@
             header("Location: http://lamp.cse.fau.edu/~wnazaire2013/fp/rd.php");
     }
     
-    if(isset($_POST['device']) && isset($_POST['date']) && isset($_POST['time']) && isset($_POST['reason']))
-    {
-        $device = sanitizeString($db, $_POST['device']);
-        $date = sanitizeString($db, $_POST['date']);
-        $time = sanitizeString($db, $_POST['time']);
-        $reason = sanitizeString($db, $_POST['reason']);
-
-        SavePostToDB($db, $device, $date, $time, $reason); 
-    }
 
     if (isset($_SESSION['user']))                           //Check to see if the user has logged in
     {
@@ -155,25 +146,25 @@ _END;
            <div style="display: none" id="add_form">
                 <h3>Add an appointment</h3>
                 <hr>
-                <form>
+                <form action='new.php' method='POST'">
                   <fieldset class="form-group">
                     <label for="device">Device Name</label>
-                    <input type="text" class="form-control" id="device" placeholder="Example: Toshiba Satellite L645 Laptop">
+                    <input type="text" class="form-control" id="device" name="device" placeholder="Example: Toshiba Satellite L645 Laptop" autofocus>
                   </fieldset>
 
                   <fieldset class="form-group">
                     <label for="date">Date</label>
-                    <input type="text" class="form-control" id="date" placeholder="Example: May 4, 2016">
+                    <input type="text" class="form-control" id="date" name="date" placeholder="Example: May 4, 2016">
                   </fieldset>
                   
                   <fieldset class="form-group">
                     <label for="time">Time</label>
-                    <input type="text" class="form-control" id="time" placeholder="Example: 4:00 pm">
+                    <input type="text" class="form-control" id="time" name="time" placeholder="Example: 4:00 pm">
                   </fieldset>
 
                  <fieldset class="form-group">
                     <label for="reason">What is the reason for your appointment?</label>
-                    <textarea class="form-control" id="reason" rows="3"></textarea>
+                    <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
                   </fieldset>
                     <br>
                     <div class= "button-holder">
@@ -182,7 +173,46 @@ _END;
                 </form>
            </div>
            <div style="display: none" id="view_appt">
-                <p>View all appointments</p>
+                <h3>My appointments</h3>
+                <hr>
+_END;
+                $customerid = queryMySQL("SELECT id FROM USERS_K WHERE username='$user'")->fetch_assoc()['id'];
+                if ($priv == 1)
+                {
+                   $result = queryMySQL("SELECT * FROM Appointments");
+                   if(!$row = mysqli_fetch_array($result))
+                    {
+                        echo "You haven't made any appointments yet";
+                    }   
+                }
+                else{
+                    $result = queryMySQL("SELECT * FROM Appointments order by cust_id");
+                    while($row = mysqli_fetch_array($result))
+                    {
+                       $cust_id = $row['cust_id'];
+                        $customer = queryMySQL("SELECT name FROM USERS_K WHERE id = '$cust_id'");
+                        $id = $row['id'];
+                        $time = strtotime($row['appt_time']);
+                        $made = strtotime($row['made']);
+
+                        echo "<p><b>ID: </b>" . $id . "</p>";
+                        echo "<p><b>Customer: </b>" . $customer->fetch_assoc()['name'] . "</p>";
+                        echo "<p><b>Device: </b>" . $row['device'] . "</p>";
+                        echo "<p><b>Reason: </b>" . $row['reason'] . "</p>";
+                        echo "<p><b>Date: </b>" . date_format(date_create($row['appt_date']), "F d, Y") . "</p>";            
+                        echo "<p><b>Time: </b>" . date_format(date_create("@$time"), "g:i a") . "</p>";
+
+                        if ($row['approval'] == "p")
+                            echo "<p><b>Status: </b>Pending approval </p>";
+                        else if ($row['approval'] == "a")
+                            echo "<p><b>Status: </b>Approved </p>";
+                        else if ($row['approval'] == "n")
+                            echo "<p><b>Status: </b>Not approved </p>";
+
+                        echo "<p><b>Date Created: </b>" . date_format(date_create("@$made"), "F d, Y g:i:s") . "</p>";
+                    }
+                }
+        echo <<<_END
            </div>
            <div style="display: none" id="accept_appt">
                 <h3>Accept appointments</h3>
