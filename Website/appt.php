@@ -145,44 +145,34 @@ _END;
            <div style="display: none" id="view_appt">
                 <p>View all appointments</p>
            </div>
-           <div style="display: none" id="cancel_appt">
-                <p>Cancel an appointment</p>
-           </div>
            <div style="display: none" id="accept_appt">
-                <p>Accept appointments</p>
+                <h3>Accept appointments</h3>
+                <hr>
 _END;
             $appr = "p";
             $result = queryMySQL("SELECT * FROM Appointments WHERE approval = '$appr'");
-            echo "<table border='1'>
-            <tr>
-            <th>Appointment ID</th>
-            <th>Date Created</th>
-            <th>Customer ID</th>
-            <th>Device</th>
-            <th>Reason</th>
-            <th>Appointment Date</th>
-            <th>Appointment Time</th>
-            <th>Approve</th>
-            <th>Deny</th>
-            </tr>";
-        
+                    
             while($row = mysqli_fetch_array($result))
             {
-                echo "<tr>";
-                echo "<td>" . $row['id'] . "</td>";
-                echo "<td>" . $row['made'] . "</td>";
-                echo "<td>" . $row['cust_id'] . "</td>";
-                echo "<td>" . $row['device'] . "</td>";
-                echo "<td>" . $row['reason'] . "</td>";
-                echo "<td>" . $row['appt_date'] . "</td>";
-                echo "<td>" . $row['appt_time'] . "</td>";
+                $cust_id = $row['cust_id'];
+                $customer = queryMySQL("SELECT name FROM USERS_K WHERE id = '$cust_id'");
+                
+                echo "<p><b>ID: </b>" . $row['id'] . "</p>";
+                echo "<p><b>Customer: </b>" . $customer->fetch_assoc()['name'] . "</p>";
+                echo "<p><b>Device: </b>" . $row['device'] . "</p>";
+                echo "<p><b>Reason: </b>" . $row['reason'] . "</p>";
+                echo "<p><b>Date: </b>" . date_format(date_create($row['appt_date']), "F d, Y") . "</p>";
+                $time = strtotime($row['appt_time']);
+                echo "<p><b>Time: </b>" . date_format(date_create("@$time"), "g:i a") . "</p>";
+                $made = strtotime($row['made']);
+                echo "<p><b>Date Created: </b>" . date_format(date_create("@$made"), "F d, Y g:i:s") . "</p>";
                 echo <<<_END
-                <td> <a id="accept2" class="btn btn-primary btn-sm" role="button">Accept</a> </td>
-                <td> <a id="deny" class="btn btn-primary btn-sm" role="button">Deny</a> </td>
-                </tr>
+                <a id="accept2" class="btn btn-primary btn-sm" role="button">Accept</a>
+                <a id="deny" class="btn btn-primary btn-sm" role="button">Deny</a>
+                <hr>
 _END;
             }
-        echo "</table>";
+        echo "</div>";
         
         
         echo <<<_END
