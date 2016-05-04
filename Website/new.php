@@ -14,11 +14,6 @@ if(isset($_POST['device']) && isset($_POST['date']) && isset($_POST['time']) && 
         
         SaveApptToDB($db, $id, $device, $date, $time, $reason);
         
-        /*$query = "INSERT INTO Appointments VALUES(null, null, default, $id, $device, $reason, '$date', '$time')";
-        queryMySQL($query);
-        if(!$result = $_db->query($query))
-        {
-            die('There was an error running the query [' . $_db->error . ']');
-        }*/
+        header("Location: http://lamp.cse.fau.edu/~wnazaire2013/kopje/success.php");
     }
 ?>

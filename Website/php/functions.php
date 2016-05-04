@@ -17,9 +17,9 @@
 	    	echo "Prepare failed: (" . $_db->errno . ") " . $_db->error;
     	}
         $n = "null";
-        $f = '';
+        $f = date('Y-m-d H:i:s');;
         $d = "p";
-        echo $d;
+        echo $f;
 	    /* Prepared statement, stage 2: bind parameters*/
     	if (!$stmt->bind_param('sssissss', $n, $f, $d, $_id, $_device, $_reason, $_date, $_time))
     	{
