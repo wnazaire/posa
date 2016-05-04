@@ -9,10 +9,13 @@ if(isset($_POST['device']) && isset($_POST['date']) && isset($_POST['time']) && 
         $time = sanitizeString($db, $_POST['time']);
         $reason = sanitizeString($db, $_POST['reason']);
         
+        $d = date_format(date_create($date), "Y-m-d");
+        $t = date_format(date_create($time), "H:i:s");
+    
         $user = $_SESSION['user'];
         $id = queryMySQL("SELECT id FROM USERS_K WHERE username='$user'")->fetch_assoc()['id'];
         
-        SaveApptToDB($db, $id, $device, $date, $time, $reason);
+        SaveApptToDB($db, $id, $device, $d, $t, $reason);
         
         header("Location: http://lamp.cse.fau.edu/~wnazaire2013/kopje/success.php");
     }
