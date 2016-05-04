@@ -153,7 +153,7 @@ _END;
            <div style="display: none" id="add_form">
                 <h3>Add an appointment</h3>
                 <hr>
-                <form action='new.php' method='POST'">
+                <form id="add_appt" action='new.php' method='POST'>
                   <fieldset class="form-group">
                     <label for="device">Device Name</label>
                     <input type="text" class="form-control" id="device" name="device" placeholder="Example: Toshiba Satellite L645 Laptop" autofocus>
@@ -161,7 +161,7 @@ _END;
 
                   <fieldset class="form-group">
                     <label for="date">Date</label>
-                    <input type="text" class="form-control" id="date" name="date" placeholder="Example: May 4, 2016">
+                    <input type="text" class="form-control" id="date" name="date" placeholder="Example: 05/04/2016">
                   </fieldset>
                   
                   <fieldset class="form-group">
@@ -174,9 +174,7 @@ _END;
                     <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
                   </fieldset>
                     <br>
-                    <div class= "button-holder">
-                  <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-                    </div>
+                    <input id="appt_button" class="btn btn-primary btn-sm" type="button" value="Submit">
                 </form>
            </div>
            <div style="display: none" id="viewall_appt">

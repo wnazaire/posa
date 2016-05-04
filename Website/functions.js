@@ -172,6 +172,58 @@ function validatePass(pass, passver) {
     return "";
 };
 
+function validateDeviceReason(date, reason) {
+    d = date.trim();
+    r = reason.trim();
+    
+    if (d === ""){
+        return "Device field empty.\n";
+    }
+    if (r === ""){
+        return "Reason field empty.\n";
+    }
+    
+    return "";
+};
+
+function validateDate(dateString) {
+    // First check for the pattern
+    if(!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
+        return "Date in incorrect format\n";
+
+    // Parse the date parts to integers
+    var parts = dateString.split("/");
+    var day = parseInt(parts[1], 10);
+    var month = parseInt(parts[0], 10);
+    var year = parseInt(parts[2], 10);
+
+    // Check the ranges of month and year
+    if(year < 1000 || year > 3000 || month == 0 || month > 12)
+        return "Date out of range\n";
+    
+    if(year < 2016 || (month <= 5 && day <= 3))
+        return "Appointment cannot occur in past\n";
+
+    var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+    // Adjust for leap years
+    if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+        monthLength[1] = 29;
+
+    // Check the range of the day
+    if (!(day > 0 && day <= monthLength[month - 1]))
+        return "Day of month out of range\n";
+    
+    return "";
+};
+
+function validateTime(timeString) {
+    if(!/^([1-9]|1[0-2]):([0-5]\d)\s*(am|pm)?$/i.test(timeString))
+        return "Time in incorrect format";
+
+    return "";
+};
+
 function validateSignup() {
     var name = document.getElementById('name');
     var un = document.getElementById('user');
@@ -191,12 +243,42 @@ function validateSignup() {
     }
 };
 
+function validateAdding() {
+    var device = document.getElementById('device');
+    var date = document.getElementById('date');
+    var time = document.getElementById('time');
+    var reason = document.getElementById('reason');
+    
+    var fail = validateDeviceReason(device.value, reason.value);
+    fail += validateDate(date.value);
+    fail += validateTime(time.value);
+    
+    if (fail === "") {
+        document.forms["add_appt"].submit();
+        return true;
+    } else {
+        alert(fail);
+        return false;
+    }
+};
+
 $("#signup").on('click', function() {
     validateSignup();
 });
 
+$("#appt_button").on('click', function() {
+    validateAdding();
+});
+
 $(document).on('keydown', '#signupUser', function(event){                        //Prevent form submission on enter if invalid
     if((event.which == 13) && (validateSignup() === false)) {
+        event.preventDefault();
+        return false;
+    }
+});
+
+$(document).on('keydown', '#add_appt', function(event){                            //Prevent form submission on enter if invalid
+    if((event.which == 13) && (validateAdding() === false)) {
         event.preventDefault();
         return false;
     }
